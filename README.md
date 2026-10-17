@@ -26,7 +26,7 @@ Lost-and-found communication on university campuses is often scattered across so
 
 ## Live Demo
 
-🔗 **Live demo:** _Coming soon_
+🔗 **Live demo:** https://bracu-lost-and-found-zncf.onrender.com/
 
 > After deployment, replace `Coming soon` with your public project URL.
 
@@ -161,6 +161,7 @@ It also includes authentication, moderation and abuse-reporting functionality.
 - Private messaging
 - Notifications
 - Admin moderation
+- Public deployment
 
 ### Planned
 - Email verification
