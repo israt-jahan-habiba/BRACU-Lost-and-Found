@@ -1,78 +1,183 @@
+<div align="center">
+
 # BRACU Lost & Found
 
-A full-stack web app where BRAC University students report lost items, post found items, search, and
-recover belongings through a claim → ownership verification → handover workflow.
+**A full-stack lost-and-found platform for BRAC University students**
 
-**Stack:** React (Vite) · Node.js + Express · SQLite (built-in `node:sqlite`, no native build tools needed) · JWT auth · bcrypt · multer uploads
+Report lost items, post found items, search campus listings, verify ownership, communicate securely, and complete item handovers through a structured recovery workflow.
+
+![React](https://img.shields.io/badge/React-Frontend-61DAFB?logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-Backend-339933?logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-API-000000?logo=express&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Authentication-000000?logo=jsonwebtokens&logoColor=white)
+
+[Features](#features) · [Getting started](#getting-started) · [How it works](#how-it-works) · [Tech stack](#tech-stack) · [Roadmap](#roadmap)
+
+</div>
+
+---
+
+## Why I built this
+
+Lost-and-found communication on university campuses is often scattered across social media posts, group chats, and informal announcements. Important posts can easily get buried, and there is often no structured way to verify ownership or safely return an item.
+
+**BRACU Lost & Found** provides one dedicated platform where BRAC University students can report lost and found belongings, search listings, verify ownership, communicate securely, and complete the handover process while keeping private contact information protected.
+
+## Live Demo
+
+🔗 **Live demo:** _Coming soon_
+
+> After deployment, replace `Coming soon` with your public project URL.
 
 ## Features
 
-| Area | What's implemented |
-|---|---|
-| Auth | Register / login, BRACU-email restriction, bcrypt hashing, forgot/reset password, profile + change password, suspended-user blocking |
-| Reports | Lost & found reports with photo (JPG/PNG/WEBP, max 5 MB), predefined campus locations, categories, urgent flag for IDs/wallets/keys/phones, "handed to security" flag, duplicate warning, edit/delete/resolve |
-| Search | Keyword search + filters (lost/found, category, location, date range, status), pagination |
-| Claims | Claim a found item / respond to a lost one, **ownership verification** (claimant describes hidden details; finder compares with private notes), accept/reject, auto-reject others, in-app chat (no phone numbers exposed), handover confirmation, cancel |
-| Smart matching | Explainable score (category, location, keyword overlap, date proximity); owners are notified of strong matches |
-| Notifications | In-app bell (polling) for claims, messages, matches, status changes |
-| Dashboard | My reports, sent/received claims, saved items, profile settings |
-| Admin | Analytics (counts, avg resolution time, top categories/locations), flagged-post moderation, remove/restore posts, suspend users |
-| Extras | Favorites, report abuse, FAQ/guidelines page, responsive + dark-mode UI, keyboard/aria accessibility |
+| | Feature | Details |
+|---|---|---|
+| 🔐 | **Authentication** | Registration, login, BRACU email restriction, JWT authentication, password management |
+| 📦 | **Lost & found reports** | Create lost/found reports with categories, campus locations, photos, status and urgent-item flags |
+| 🔎 | **Search & filtering** | Search by keyword and filter by type, category, location, date range and status |
+| 🤝 | **Claims system** | Claim found items or respond to lost-item reports through a structured recovery workflow |
+| ✅ | **Ownership verification** | Claimants describe hidden item details so owners/finders can verify ownership |
+| 💬 | **Private chat** | In-app communication without exposing phone numbers or personal contact information |
+| 🧠 | **Smart matching** | Matches potentially related lost and found reports using category, location, keywords and date proximity |
+| 🔔 | **Notifications** | Notifications for claims, messages, possible matches and status changes |
+| 📊 | **User dashboard** | Manage reports, claims, saved items and account settings |
+| 🛡️ | **Admin panel** | Moderation tools, analytics, flagged reports, user suspension and post management |
+| ⭐ | **Favorites & abuse reports** | Save useful listings and report inappropriate or suspicious content |
+| 🌙 | **Responsive UI** | Responsive interface with dark mode and accessibility support |
 
-Privacy: public listings never include email, phone, student ID, or the private "hidden details".
+## Getting started
 
-## Quick start
+### Prerequisites
 
-Requires **Node.js 22.13 or newer** (uses the built-in `node:sqlite`; works on Node 24).
+- Node.js
+- npm
+
+### Installation
 
 ```bash
+git clone https://github.com/israt-jahan-habiba/BRACU-Lost-and-Found.git
+cd BRACU-Lost-and-Found
+
 npm run install:all
-npm run seed          # creates admin + demo data
-npm run dev:server    # terminal 1 -> API on :4000
-npm run dev:client    # terminal 2 -> UI on http://localhost:5173
 ```
 
-Demo logins (from `npm run seed`): `admin@bracu.ac.bd / admin12345`, `nusrat@g.bracu.ac.bd / password123`,
-`tanvir@g.bracu.ac.bd / password123`. **Change the admin password before deploying.**
-
-### Single-process production mode
+### Add demo data
 
 ```bash
-npm run build
-npm start     # Express serves API + built UI on :4000 (set JWT_SECRET in the environment first)
+npm run seed
 ```
 
-### Tests
+### Run the backend
 
-`npm test` runs 35 end-to-end API checks on a throwaway database (auth, permissions, privacy, matching, claims, admin).
-
-## Structure
-
-```
-server/src/
-  index.js        app setup, security headers, rate limiting, static serving
-  db.js           SQLite schema (users, items, claims, messages, notifications, abuse_reports, favorites)
-  auth.js         JWT middleware        matching.js   similarity scoring
-  routes/         auth, items, claims, admin, misc
-  seed.js         demo data             smoke-test.js API tests
-client/src/
-  App.jsx         layout, routes, notification bell      api.js, auth.jsx   fetch + auth context
-  pages/          Home, Browse, ItemDetail, ReportForm, Dashboard, ClaimPage, AuthPages, Admin, Guidelines
+```bash
+npm run dev:server
 ```
 
-## Known limitations / next steps
+### Run the frontend
 
-- **Email verification and reset emails:** no mail server is bundled. Reset tokens are printed to the server console;
-  add Nodemailer in `routes/auth.js`. Registration only checks the `@bracu.ac.bd` domain, not mailbox ownership.
-- Notifications use polling; Socket.IO would make them real-time.
-- Images are stored on local disk (`server/uploads`); use Cloudinary/S3 on hosts with ephemeral disks.
-- SQLite suits a portfolio/demo; for MySQL/Postgres replace `db.js` and the SQL in `routes/`.
-- Matching is keyword-based; text/image embeddings are a natural upgrade.
+Open another terminal:
+
+```bash
+npm run dev:client
+```
+
+### Run tests
+
+```bash
+npm test
+```
+
+## Project structure
+
+```text
+BRACU-Lost-and-Found
+├── client/
+│   └── src/
+├── server/
+│   └── src/
+├── .env.example
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+## How it works
+
+### 1. Report an item
+Students can create **Lost** or **Found** reports with item details, category, location, date and other relevant information.
+
+### 2. Search and matching
+Users can search listings manually, while the system can also identify possible matches using category, location, keywords and date proximity.
+
+### 3. Submit a claim
+A user can claim an item and provide private ownership details.
+
+### 4. Ownership verification
+The item holder can review the claim and accept or reject it.
+
+### 5. Secure communication
+Users can communicate through the built-in chat without publicly exposing personal contact information.
+
+### 6. Handover confirmation
+After the item is returned, the case can be marked as resolved.
+
+## Privacy & security
+
+The system is designed to avoid publicly exposing sensitive user details such as:
+
+- Email addresses
+- Phone numbers
+- Student IDs
+- Private ownership-verification information
+
+It also includes authentication, moderation and abuse-reporting functionality.
+
+## Tech stack
+
+- **Frontend:** React, Vite
+- **Backend:** Node.js, Express.js
+- **Database:** SQLite
+- **Authentication:** JWT
+- **File handling:** Image uploads
+- **Testing:** Automated API testing
 
 ## Project Highlights
 
-**BRACU Lost & Found — University Lost-and-Found Web Application** · React, Node.js/Express, SQLite, JWT
-- Built a full-stack platform for BRAC University students to report, search, and recover lost belongings.
-- Implemented authentication, category/location/date filters, image uploads, and per-user dashboards.
-- Designed a claim workflow with ownership verification, in-app chat, and handover confirmation that keeps contact details private.
-- Added explainable item matching, notifications, an admin moderation/analytics panel, and a 35-check automated API test suite.
+- Built a full-stack lost-and-found platform for BRAC University students.
+- Implemented authentication, searchable item listings, claims and user dashboards.
+- Designed an ownership-verification and handover workflow.
+- Added private messaging, notifications, admin moderation and smart item matching.
+- Structured the project with separate frontend and backend modules.
+
+## Roadmap
+
+### Completed
+- Authentication
+- Lost and found reporting
+- Search and filtering
+- Claims workflow
+- Private messaging
+- Notifications
+- Admin moderation
+
+### Planned
+- Email verification
+- Real-time notifications
+- Cloud image storage
+- Production database
+- AI-based semantic matching
+- Public deployment
+
+## Contributing
+
+Issues and pull requests are welcome.
+
+---
+
+<div align="center">
+
+Built by <strong><a href="https://github.com/israt-jahan-habiba">Israt Jahan Habiba</a></strong>
+
+</div>
