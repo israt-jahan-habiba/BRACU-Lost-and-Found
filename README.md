@@ -69,7 +69,7 @@ client/src/
 - SQLite suits a portfolio/demo; for MySQL/Postgres replace `db.js` and the SQL in `routes/`.
 - Matching is keyword-based; text/image embeddings are a natural upgrade.
 
-## CV blurb (edit to match what you actually ship)
+## Project Highlights
 
 **BRACU Lost & Found — University Lost-and-Found Web Application** · React, Node.js/Express, SQLite, JWT
 - Built a full-stack platform for BRAC University students to report, search, and recover lost belongings.
